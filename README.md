@@ -1,4 +1,4 @@
 # HelpTheBlind
 
 ## Demo
-![](./git/HelpTheBlind/images/working.gif)
+![](./images/working.gif)
