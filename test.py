@@ -1,13 +1,19 @@
-import argparse
+#!/usr/bin/env python3
+
+import tensorflow_shutup
 from keras.preprocessing.sequence import pad_sequences
-from keras.applications.resnet50 import ResNet50
-from keras.preprocessing import image
-from keras.applications.resnet50 import preprocess_input
 from keras.models import load_model, Model
+from keras.applications.resnet50 import preprocess_input
+from keras.preprocessing import image
+from keras.applications.resnet50 import ResNet50
+import argparse
+import TextToSpeech as tts
 import pickle
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+
+
 matplotlib.use('TkAgg')
 
 parser = argparse.ArgumentParser()
@@ -17,6 +23,7 @@ img = args.Image
 
 
 model = load_model("./model_weights/model19.h5")
+
 with open("./Computed/Word2SeqNumbers.pkl", "rb") as Word2SeqNumbers:
     word_to_idx, idx_to_word = pickle.load(Word2SeqNumbers)
 
@@ -74,8 +81,11 @@ def predict_caption(photo):
 photo = encode_image(img)
 photo = photo.reshape((1, 2048))
 caption = predict_caption(photo)
-print("-------------------------------------"*5,
-      caption, "-------------------------------------"*5)
+print("-------------------------------------"*2,
+      f"\n\t\t\t\t{caption}\t\t\t\t\n", "-------------------------------------"*2)
+
+tts.describeCaptionAsAudio(caption)
+
 CB91_Blue = '#2CBDFE'
 CB91_Green = '#47DBCD'
 CB91_Pink = '#F3A0F2'
